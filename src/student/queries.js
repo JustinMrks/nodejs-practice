@@ -8,6 +8,15 @@ const checkEmail = 'SELECT * FROM students WHERE email = $1';
 const createStudent =
   'INSERT INTO students (name, email, age, dob) VALUES ($1, $2, $3, $4)';
 
+const editStudent = 'UPDATE students SET name = $1 WHERE id = $2';
+
 const delByID = 'DELETE FROM students WHERE id = $1';
 
-module.exports = { getAll, getByID, checkEmail, createStudent, delByID };
+module.exports = {
+  getAll,
+  getByID,
+  checkEmail,
+  createStudent,
+  editStudent,
+  delByID,
+};

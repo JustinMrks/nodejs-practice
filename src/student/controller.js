@@ -35,6 +35,22 @@ const createStudent = (req, res) => {
   });
 };
 
+const editStudent = (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name } = req.body;
+
+  pool.query(queries.getByID, [id], (err, results) => {
+    if (!results.rows.length) {
+      res.send(`no user found with id: ${id}`);
+    } else {
+      pool.query(queries.editStudent, [name, id], (err, result) => {
+        if (err) throw err;
+        res.send(`Updated user with id: ${id} successfully`);
+      });
+    }
+  });
+};
+
 const delStudentByID = (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -50,4 +66,10 @@ const delStudentByID = (req, res) => {
   });
 };
 
-module.exports = { getStudents, getStudentByID, createStudent, delStudentByID };
+module.exports = {
+  getStudents,
+  getStudentByID,
+  createStudent,
+  editStudent,
+  delStudentByID,
+};

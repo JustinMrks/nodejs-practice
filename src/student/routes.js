@@ -9,6 +9,8 @@ router.get('/:id', controller.getStudentByID);
 
 router.post('/', controller.createStudent);
 
+router.put('/:id', controller.editStudent);
+
 router.delete('/:id', controller.delStudentByID);
 
 module.exports = router;
