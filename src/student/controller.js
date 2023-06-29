@@ -8,7 +8,7 @@ const getStudents = (req, res) => {
   });
 };
 
-const getStudentById = (req, res) => {
+const getStudentByID = (req, res) => {
   const id = parseInt(req.params.id);
   pool.query(queries.getByID, [id], (err, result) => {
     if (err) throw err;
@@ -18,11 +18,36 @@ const getStudentById = (req, res) => {
 
 const createStudent = (req, res) => {
   const { name, email, age, dob } = req.body;
-  //check for a valid email before you try to create new
+  // check for a valid email before you try to create new
   pool.query(queries.checkEmail, [email], (err, result) => {
     if (result.rows.length) res.send('Email already in use');
-    //if email not in use
+    // if email not in use, create user
+    else {
+      pool.query(
+        queries.createStudent,
+        [name, email, age, dob],
+        (err, results) => {
+          if (err) throw err;
+          res.status(201).json('successfully created user');
+        }
+      );
+    }
   });
 };
 
-module.exports = { getStudents, getStudentById, createStudent };
+const delStudentByID = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  pool.query(queries.getByID, [id], (err, results) => {
+    if (!results.rows.length) {
+      res.send(`no user found with id: ${id}`);
+    } else {
+      pool.query(queries.delByID, [id], (err, result) => {
+        if (err) throw err;
+        res.send(`Successfully deleted user with id: ${id}`);
+      });
+    }
+  });
+};
+
+module.exports = { getStudents, getStudentByID, createStudent, delStudentByID };

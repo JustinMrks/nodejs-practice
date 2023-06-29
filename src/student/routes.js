@@ -5,8 +5,10 @@ const router = Router();
 
 router.get('/', controller.getStudents);
 
-router.get('/:id', controller.getStudentById);
+router.get('/:id', controller.getStudentByID);
 
 router.post('/', controller.createStudent);
+
+router.delete('/:id', controller.delStudentByID);
 
 module.exports = router;
